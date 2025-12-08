@@ -19,26 +19,43 @@ cloudinary.config({
 
 // Upload route
 router.post("/logo/:userType", upload.single("logo"), async (req, res) => {
+  console.log("🔥 Upload request received for:", req.params.userType);
+
   try {
     if (!req.file) {
+      console.log("⚠️ No file found in request");
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    console.log("📂 File received:", req.file.originalname, req.file.mimetype);
+
     const fileBuffer = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
 
-    const result = await cloudinary.uploader.upload(fileBuffer, {
-      folder: `PharmIQ/${req.params.userType}`,
-      use_filename: true,
-      unique_filename: false,
-    });
+    const result = await cloudinary.uploader
+      .upload(fileBuffer, {
+        folder: `PharmIQ/${req.params.userType}`,
+        use_filename: true,
+        unique_filename: false,
+      })
+      .catch((err) => {
+        console.error("❌ Cloudinary upload error:", err);
+        throw err;
+      });
 
-    res.json({
+    console.log("✅ Cloudinary Upload Success:", result.secure_url);
+
+    return res.json({
+      success: true,
       message: "Logo uploaded successfully",
       url: result.secure_url,
     });
   } catch (error) {
-    console.error("Upload Error:", error);
-    res.status(500).json({ message: "Upload failed", error: error.message });
+    console.error("🔥 Upload Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Upload failed",
+      error: error.message || error,
+    });
   }
 });
 
