@@ -6,3 +6,4 @@ const router = express.Router();
 router.get("/run", seedDemoData);
 
 export default router;
+
