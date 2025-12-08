@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+profileImage: { type: String, default: "" },
 
 const userSchema = new mongoose.Schema(
   {
