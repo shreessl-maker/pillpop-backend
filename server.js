@@ -8,6 +8,7 @@ import testRoutes from "./routes/testRoutes.js";
 import resultRoutes from "./routes/resultRoutes.js";
 import seedRoutes from "./routes/seedRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+
 app.use("/api/upload", uploadRoutes);
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use("/api/client", clientRoutes);
 app.use("/api/tests", testRoutes);
 app.use("/api/results", resultRoutes);
 app.use("/api/seed", seedRoutes);
+app.use("/api/upload", uploadRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
