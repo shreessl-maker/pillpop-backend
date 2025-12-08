@@ -1,15 +1,14 @@
 import mongoose from "mongoose";
-profileImage: { type: String, default: "" },
 
-const userSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ["admin", "manager", "staff"], default: "staff" },
-    clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
-  },
-  { timestamps: true }
-);
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ["superadmin", "admin", "staff"], default: "staff" },
+  profileImage: { type: String, default: "" }, // ✅ Correctly placed INSIDE schema
+  createdAt: { type: Date, default: Date.now },
+});
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export default User;
