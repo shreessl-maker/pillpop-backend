@@ -4,13 +4,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 // Import route files
-import dashboardRoutes from "./routes/dashboardRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
 import resultRoutes from "./routes/resultRoutes.js";
 import seedRoutes from "./routes/seedRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 // Initialize environment variables
 dotenv.config();
