@@ -3,8 +3,13 @@ import { getAllResults, getUserResults, saveResult } from "../controllers/result
 
 const router = express.Router();
 
-router.get("/", getAllResults);               // For admin/superadmin
-router.get("/:userId", getUserResults);       // For specific user
-router.post("/", saveResult);                 // Save a result
+// ✅ For Super Admin / Admin
+router.get("/", getAllResults);
+
+// ✅ For Staff / User
+router.get("/:userId", getUserResults);
+
+// ✅ For submitting test results
+router.post("/", saveResult);
 
 export default router;
