@@ -1,21 +1,60 @@
 import mongoose from "mongoose";
 
-const answerSchema = new mongoose.Schema({
-  questionId: { type: mongoose.Schema.Types.ObjectId },
-  answer: { type: String },
-  marksObtained: { type: Number, default: 0 },
-});
+// Define the Result schema
+const resultSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    testId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Test",
+      required: true,
+    },
+    clientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+      required: true,
+    },
+    score: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100,
+    },
+    totalQuestions: {
+      type: Number,
+      required: true,
+    },
+    correctAnswers: {
+      type: Number,
+      required: true,
+    },
+    wrongAnswers: {
+      type: Number,
+      required: true,
+    },
+    percentage: {
+      type: Number,
+      required: true,
+    },
+    feedback: {
+      type: String,
+      default: "",
+    },
+    dateTaken: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  {
+    timestamps: true, // adds createdAt and updatedAt automatically
+  }
+);
 
-export default mongoose.model("Result", resultSchema);
-
-const resultSchema = new mongoose.Schema({
-  testId: { type: mongoose.Schema.Types.ObjectId, ref: "Test" },
-  staffId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  answers: [{ type: String }],
-  score: { type: Number, default: 0 },
-  total: { type: Number, default: 0 },
-  createdAt: { type: Date, default: Date.now }
-});
-
+// Create the model
 const Result = mongoose.model("Result", resultSchema);
+
 export default Result;
