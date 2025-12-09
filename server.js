@@ -3,45 +3,35 @@ import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 
-// Import route files
 import authRoutes from "./routes/authRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
-import resultRoutes from "./routes/resultRoutes.js";
+import resultRoutes from "./routes/resultRoutes.js"; // ✅ make sure this path is correct
 import seedRoutes from "./routes/seedRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
-import dashboardRoutes from "./routes/dashboardRoutes.js";
 
-// Initialize environment variables
 dotenv.config();
-
-// Create express app
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.error("MongoDB Error:", err));
 
-// Default route
-app.get("/", (req, res) => res.send("PharmIQ API Running"));
+app.get("/", (req, res) => res.send("PillPopHQ API Running ✅"));
 
-// API Routes
+// ✅ register all routes
 app.use("/api/auth", authRoutes);
 app.use("/api/client", clientRoutes);
 app.use("/api/tests", testRoutes);
-app.use("/api/results", resultRoutes);
+app.use("/api/results", resultRoutes); // 👈 ensure this is here
 app.use("/api/seed", seedRoutes);
-app.use("/api/upload", uploadRoutes); // ✅ Correct position now
-app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/upload", uploadRoutes);
 
-// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`✅ PharmIQ API Running on port ${PORT}`);
+  console.log(`✅ PillPopHQ API Running on port ${PORT}`);
 });
