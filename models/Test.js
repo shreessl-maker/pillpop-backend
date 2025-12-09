@@ -1,26 +1,25 @@
 import mongoose from "mongoose";
 
 const questionSchema = new mongoose.Schema({
-  questionText: { type: String, required: true },
-  type: { type: String, enum: ["objective", "subjective"], required: true },
-  options: [{ type: String }], // for objective questions
-  correctAnswer: { type: String }, // optional for subjective
-  marks: { type: Number, default: 1 },
+  question: { type: String, required: true },
+  options: [{ type: String }],          // optional for MCQ
+  correctAnswer: { type: String },      // model answer
+  type: { type: String, enum: ["objective", "subjective"], default: "objective" }
 });
 
-const testSchema = new mongoose.Schema(
-  {
-    title: { type: String, required: true },
-    description: { type: String },
-    clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    questions: [questionSchema],
-    startTime: { type: Date },
-    endTime: { type: Date },
-    durationMinutes: { type: Number },
-    isActive: { type: Boolean, default: true },
+const testSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Client", required: true },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  questions: [questionSchema],
+  status: {
+    type: String,
+    enum: ["draft", "live", "disabled"],
+    default: "draft"
   },
-  { timestamps: true }
-);
+  createdAt: { type: Date, default: Date.now }
+});
 
-export default mongoose.model("Test", testSchema);
+const Test = mongoose.model("Test", testSchema);
+export default Test;
