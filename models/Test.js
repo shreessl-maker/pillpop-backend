@@ -1,25 +1,15 @@
 import mongoose from "mongoose";
 
-const questionSchema = new mongoose.Schema({
-  question: { type: String, required: true },
-  options: [{ type: String }],          // optional for MCQ
-  correctAnswer: { type: String },      // model answer
-  type: { type: String, enum: ["objective", "subjective"], default: "objective" }
-});
-
-const testSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  description: { type: String },
-  clientId: { type: mongoose.Schema.Types.ObjectId, ref: "Client", required: true },
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  questions: [questionSchema],
-  status: {
-    type: String,
-    enum: ["draft", "live", "disabled"],
-    default: "draft"
+const testSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    description: String,
+    questions: [String],
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    assignedTo: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    status: { type: String, enum: ["active", "inactive"], default: "active" },
   },
-  createdAt: { type: Date, default: Date.now }
-});
+  { timestamps: true }
+);
 
-const Test = mongoose.model("Test", testSchema);
-export default Test;
+export default mongoose.model("Test", testSchema);
